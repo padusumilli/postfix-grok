@@ -1,6 +1,6 @@
 # postfix-grok
 
-Patterns for parsing postfix maillog using grok. The patterns are adopted from other sources like
+Patterns for parsing postfix maillog using grok. The patterns are adopted and modified to fix parsing issues from other sources like
 - http://blog.tinle.org/?p=459
 - https://github.com/whyscream/postfix-grok-patterns
 
