@@ -20,8 +20,9 @@ POSTFIXACTION discard|dunno|filter|hold|ignore|info|prepend|redirect|replace|rej
 
 # postfix/smtp and postfix/lmtp, postfix/local and postfix/error
 POSTFIXSMTP %{POSTFIXSMTPRELAY}|%{POSTFIXSMTPCONNECT}|%{POSTFIXSMTP5XX}|%{POSTFIXSMTPREFUSAL}|%{POSTFIXSMTPLOSTCONNECTION}|%{POSTFIXSMTPTIMEOUT}
-POSTFIXSMTPRELAY %{QUEUEID:qid}: to=<%{DATA:to}>,(?:\sorig_to=<%{DATA:orig_to}>,)? relay=%{RELAY},(?: delay=%{POSREAL:delay},)?(?: delays=%{DATA:delays}?,)?(?: conn_use=%{POSREAL:conn_use},)?( %{WORD}=%{DATA},)+? dsn=%{DSN:dsn}, status=%{STATUS:status} %{GREEDYDATA:reason}
+POSTFIXSMTPRELAY %{QUEUEID:qid}: to=<%{DATA:to}>,(?:\sorig_to=<%{DATA:orig_to}>,)? relay=%{RELAY},(?: delay=%{POSREAL:delay},)?(?: delays=%{DATA:delays}?,)?(?: conn_use=%{POSREAL:conn_use},)?( %{WORD}=%{DATA},)+? dsn=%{DSN:dsn}, status=%{STATUS:status} (?:\(connect to %{POSTFIXSMTPCONNECTDEFERRED}|%{GREEDYDATA:reason})
 POSTFIXSMTPCONNECT connect to %{RELAY}: %{GREEDYDATA:reason}
+POSTFIXSMTPCONNECTDEFERRED %{RELAY}: %{GREEDYDATA:reason}\)
 POSTFIXSMTP5XX %{QUEUEID:qid}: to=<%{EMAILADDRESS:to}>,(?:\sorig_to=<%{EMAILADDRESS:orig_to}>,)? relay=%{RELAY}, (%{WORD}=%{DATA},)+ dsn=%{DSN:dsn}, status=%{STATUS:status} \(host %{HOSTNAME}\[%{IP}\] said: %{PERMERROR:responsecode} %{DATA:smtp_response} \(in reply to %{DATA:command} command\)\)
 POSTFIXSMTPREFUSAL %{QUEUEID:qid}: host %{RELAY} refused to talk to me: %{GREEDYDATA:reason}
 POSTFIXSMTPLOSTCONNECTION %{QUEUEID:qid}: lost connection with %{RELAY} while %{GREEDYDATA:reason}
